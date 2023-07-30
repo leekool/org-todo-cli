@@ -3,6 +3,8 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"strings"
+
 	// "io"
 	"os"
 )
@@ -14,6 +16,7 @@ func check(e error) {
 }
 
 func main() {
+	// temporary, will get org folder eventually rather than file
 	filePath := "/home/lee/sync/org/todo.org"
 	file, err := os.Open(filePath)
 
@@ -28,7 +31,10 @@ func main() {
 
 	for scanner.Scan() {
 		line := scanner.Text()
-		fmt.Println(line)
+
+		if strings.Contains(line, "TODO") {
+			fmt.Println(line)
+		}
 	}
 
 	if err := scanner.Err(); err != nil {
