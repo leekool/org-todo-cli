@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/leekool/org-todo-cli/parsetodo"
+	"org-todo-cli/parsetodo"
 )
 
 func main() {
-
+	parsetodo.Parse()
 }

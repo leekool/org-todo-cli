@@ -1,4 +1,4 @@
-module github.com/leekool/org-todo-cli
+module org-todo-cli
 
 go 1.20
 

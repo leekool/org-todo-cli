@@ -14,9 +14,9 @@ func check(e error) {
 	}
 }
 
-func parse() {
+func Parse() {
 	// temporary, will get org folder eventually rather than file
-	filePath := "../todotest.org"
+	filePath := "./todotest.org"
 	file, err := os.Open(filePath)
 
 	if err != nil {
