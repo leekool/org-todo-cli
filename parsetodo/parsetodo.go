@@ -1,4 +1,4 @@
-package main
+package parsetodo
 
 import (
 	"bufio"
@@ -14,7 +14,7 @@ func check(e error) {
 	}
 }
 
-func main() {
+func parse() {
 	// temporary, will get org folder eventually rather than file
 	filePath := "../todotest.org"
 	file, err := os.Open(filePath)
