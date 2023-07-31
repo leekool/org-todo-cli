@@ -1,0 +1,10 @@
+
+* TODO nvim - delete/rename in telescope
+* DONE nvim - org floating buffer transparency
+ [2023-06-29 Thu] CLOSED: [2023-06-29 Thu 23:03]
+* TODO backup music
+ [2023-06-29 Thu]
+* TODO recreate imre.al server with node
+ [2023-07-12 Wed]
+* TODO fix ssl imre.al
+ [2023-07-14 Fri]

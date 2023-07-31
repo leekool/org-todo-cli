@@ -3,8 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"strings"
-
+	"regexp"
 	// "io"
 	"os"
 )
@@ -17,7 +16,7 @@ func check(e error) {
 
 func main() {
 	// temporary, will get org folder eventually rather than file
-	filePath := "/home/lee/sync/org/todo.org"
+	filePath := "./todotest.org"
 	file, err := os.Open(filePath)
 
 	if err != nil {
@@ -29,12 +28,15 @@ func main() {
 
 	scanner := bufio.NewScanner(file)
 
+	regex := regexp.MustCompile(`\* (TODO|DONE)`)
+
 	for scanner.Scan() {
 		line := scanner.Text()
 
-		if strings.Contains(line, "TODO") {
+		if regex.MatchString(line) {
 			fmt.Println(line)
 		}
+
 	}
 
 	if err := scanner.Err(); err != nil {
