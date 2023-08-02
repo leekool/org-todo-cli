@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"regexp"
-	// "io"
+	"strings"
 	"os"
 )
 
@@ -14,32 +14,37 @@ func check(e error) {
 	}
 }
 
-func Parse() {
+func Parse() []string {
 	// temporary, will get org folder eventually rather than file
 	filePath := "./todotest.org"
 	file, err := os.Open(filePath)
 
 	if err != nil {
 		fmt.Println("Error opening file:", err)
-		return
+		return []string{}
 	}
 
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
 
+	if err := scanner.Err(); err != nil {
+		fmt.Println("Error reading file:", err)
+		return []string{}
+	}
+
 	regex := regexp.MustCompile(`\* (TODO|DONE)`)
+
+	var lines []string
 
 	for scanner.Scan() {
 		line := scanner.Text()
 
 		if regex.MatchString(line) {
-			fmt.Println(line)
+			line = strings.Replace(line, "* ", "", 1)
+			lines = append(lines, line)
 		}
-
 	}
 
-	if err := scanner.Err(); err != nil {
-		fmt.Println("Error reading file:", err)
-	}
+	return lines
 }
