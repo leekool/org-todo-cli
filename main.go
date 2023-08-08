@@ -28,30 +28,30 @@ func (m model) Init() tea.Cmd {
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 
-	// Is it a key press?
+	// key press
 	case tea.KeyMsg:
 
-		// Cool, what was the actual key pressed?
+		// actual key pressed
 		switch msg.String() {
 
-		// These keys should exit the program.
+		// exit keys
 		case "ctrl+c", "q":
 			return m, tea.Quit
 
-		// The "up" and "k" keys move the cursor up
+		// move cursor up
 		case "up", "k":
 			if m.cursor > 0 {
 				m.cursor--
 			}
 
-		// The "down" and "j" keys move the cursor down
+		// move cursor down
 		case "down", "j":
 			if m.cursor < len(m.choices)-1 {
 				m.cursor++
 			}
 
-		// The "enter" key and the spacebar (a literal space) toggle
-		// the selected state for the item that the cursor is pointing at.
+		// the "enter" key and the spacebar (a literal space) toggle
+		// the selected state for the item that the cursor is pointing at
 		case "enter", " ":
 			_, ok := m.selected[m.cursor]
 			if ok {
