@@ -62,38 +62,37 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 	}
 
-	// Return the updated model to the Bubble Tea runtime for processing.
-	// Note that we're not returning a command.
+	// return updated model to bubble tea runtime for processing
+	// note that we're not returning a command
 	return m, nil
 }
 
 func (m model) View() string {
-	// s := "What should we buy at the market?\n\n"
 	var s string
 
-	// Iterate over our choices
+	// iterate over choices
 	for i, choice := range m.choices {
 
-		// Is the cursor pointing at this choice?
+		// is the cursor pointing at this choice?
 		cursor := " " // no cursor
 		if m.cursor == i {
-			cursor = ">" // cursor!
+			cursor = ">" // cursor
 		}
 
-		// Is this choice selected?
+		// is this choice selected?
 		checked := " " // not selected
 		if _, ok := m.selected[i]; ok {
-			checked = "x" // selected!
+			checked = "x" // selected
 		}
 
-		// Render the row
+		// render row
 		s += fmt.Sprintf("%s [%s] %s\n", cursor, checked, choice)
 	}
 
-	// The footer
+	// footer
 	s += "\n(q) quit.\n"
 
-	// Send the UI for rendering
+	// send UI for rendering
 	return s
 }
 
