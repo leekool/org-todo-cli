@@ -8,11 +8,11 @@ import (
 	"os"
 )
 
-func check(e error) {
-	if e != nil {
-		panic(e)
-	}
-}
+// func check(e error) {
+// 	if e != nil {
+// 		panic(e)
+// 	}
+// }
 
 func Parse() []string {
 	// temporary, will get org folder eventually rather than file
