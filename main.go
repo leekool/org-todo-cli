@@ -7,15 +7,33 @@ import (
 	"os"
 )
 
+type todo struct {
+	status string
+	task   string
+}
+
 type model struct {
 	choices  []string
 	cursor   int
 	selected map[int]struct{}
 }
 
+func getTasks() []string {
+	tasks := parsetodo.Parse()
+
+	var combinedTasks []string
+
+	for _, t := range tasks {
+		combinedTask := t.Status + " " + t.Task
+		combinedTasks = append(combinedTasks, combinedTask)
+	}
+
+	return combinedTasks
+}
+
 func initialModel() model {
 	return model{
-		choices:  parsetodo.Parse(),
+		choices:  getTasks(),
 		selected: make(map[int]struct{}),
 	}
 }

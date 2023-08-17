@@ -3,25 +3,37 @@ package parsetodo
 import (
 	"bufio"
 	"fmt"
+	"os"
 	"regexp"
 	"strings"
-	"os"
 )
 
-// func check(e error) {
-// 	if e != nil {
-// 		panic(e)
-// 	}
-// }
+type Todo struct {
+	Status string
+	Task   string
+}
 
-func Parse() []string {
+func createTodo(input string) Todo {
+	const separator = " "
+
+	parts := strings.SplitN(input, separator, 2)
+
+	t := Todo{
+		Status: parts[0],
+		Task:	parts[1],
+	}
+
+	return t
+}
+
+func Parse() []Todo {
 	// temporary, will get org folder eventually rather than file
 	filePath := "./todotest.org"
 	file, err := os.Open(filePath)
 
 	if err != nil {
 		fmt.Println("Error opening file:", err)
-		return []string{}
+		return []Todo{}
 	}
 
 	defer file.Close()
@@ -30,19 +42,26 @@ func Parse() []string {
 
 	if err := scanner.Err(); err != nil {
 		fmt.Println("Error reading file:", err)
-		return []string{}
+		return []Todo{}
 	}
 
-	regex := regexp.MustCompile(`\* (TODO|DONE)`)
+	status := []string{"TODO", "DONE"}
 
-	var lines []string
+	// regex := regexp.MustCompile(`\* (TODO|DONE)`)
+	regexStatus := `\* (` + strings.Join(status, "|") + `)`
+	regex := regexp.MustCompile(regexStatus)
+
+	var lines []Todo
 
 	for scanner.Scan() {
 		line := scanner.Text()
 
 		if regex.MatchString(line) {
 			line = strings.Replace(line, "* ", "", 1)
-			lines = append(lines, line)
+			// lines = append(lines, line)
+
+			task := createTodo(line)
+			lines = append(lines, task)
 		}
 	}
 
