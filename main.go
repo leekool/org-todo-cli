@@ -19,16 +19,16 @@ type model struct {
 }
 
 func getTasks() []string {
-	tasks := parsetodo.Parse()
+	tasksStruct := parsetodo.Parse()
 
-	var combinedTasks []string
+	var tasks []string
 
-	for _, t := range tasks {
-		combinedTask := t.Status + " " + t.Task
-		combinedTasks = append(combinedTasks, combinedTask)
+	for _, t := range tasksStruct {
+		taskStr := t.Status + " " + t.Task
+		tasks = append(tasks, taskStr)
 	}
 
-	return combinedTasks
+	return tasks
 }
 
 func initialModel() model {
