@@ -7,26 +7,28 @@ import (
 	"os"
 )
 
-type todo struct {
-	status string
-	task   string
-}
-
 type model struct {
-	choices  []string
+	// choices  []string
+	choices  []parsetodo.Todo
 	cursor   int
 	selected map[int]struct{}
 }
 
-func getTasks() []string {
-	tasksStruct := parsetodo.Parse()
+// func getTasks() []string {
+// 	tasksStruct := parsetodo.Parse()
+//
+// 	var tasks []string
+//
+// 	for _, t := range tasksStruct {
+// 		taskStr := t.Status + " " + t.Task
+// 		tasks = append(tasks, taskStr)
+// 	}
+//
+// 	return tasks
+// }
 
-	var tasks []string
-
-	for _, t := range tasksStruct {
-		taskStr := t.Status + " " + t.Task
-		tasks = append(tasks, taskStr)
-	}
+func getTasks() []parsetodo.Todo {
+	tasks := parsetodo.Parse()
 
 	return tasks
 }
@@ -103,12 +105,14 @@ func (m model) View() string {
 			checked = "x" // selected
 		}
 
+		choiceText := choice.Status + " " + choice.Task
+
 		// render row
-		s += fmt.Sprintf("%s [%s] %s\n", cursor, checked, choice)
+		s += fmt.Sprintf("%s [%s] %s\n", cursor, checked, choiceText)
 	}
 
 	// footer
-	s += "\n(q) quit.\n"
+	s += "\n(q) quit\n"
 
 	// send UI for rendering
 	return s
