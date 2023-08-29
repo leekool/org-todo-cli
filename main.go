@@ -3,29 +3,18 @@ package main
 import (
 	"fmt"
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
 	"org-todo-cli/parsetodo"
 	"os"
 )
 
 type model struct {
-	// choices  []string
 	choices  []parsetodo.Todo
 	cursor   int
 	selected map[int]struct{}
 }
 
-// func getTasks() []string {
-// 	tasksStruct := parsetodo.Parse()
-//
-// 	var tasks []string
-//
-// 	for _, t := range tasksStruct {
-// 		taskStr := t.Status + " " + t.Task
-// 		tasks = append(tasks, taskStr)
-// 	}
-//
-// 	return tasks
-// }
+var statusStyle = lipgloss.NewStyle().Bold(true)
 
 func getTasks() []parsetodo.Todo {
 	tasks := parsetodo.Parse()
@@ -105,7 +94,7 @@ func (m model) View() string {
 			checked = "x" // selected
 		}
 
-		choiceText := choice.Status + " " + choice.Task
+		choiceText := statusStyle.Render(choice.Status) + " " + choice.Task
 
 		// render row
 		s += fmt.Sprintf("%s [%s] %s\n", cursor, checked, choiceText)
