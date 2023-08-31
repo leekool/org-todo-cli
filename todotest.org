@@ -6,5 +6,5 @@
  [2023-06-29 Thu]
 * TODO recreate imre.al server with node
  [2023-07-12 Wed]
-* TODO fix ssl imre.al
+* SKIP fix ssl imre.al
  [2023-07-14 Fri]

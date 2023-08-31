@@ -1,9 +1,9 @@
 package parsetodo
 
 import (
-	"github.com/charmbracelet/lipgloss"
 	"bufio"
 	"fmt"
+	"github.com/charmbracelet/lipgloss"
 	"os"
 	"regexp"
 	"strings"
@@ -13,8 +13,6 @@ type Todo struct {
 	Status string
 	Task   string
 }
-
-var statusStyle = lipgloss.NewStyle().Bold(true)
 
 func Parse() []Todo {
 	// temporary, will get org folder eventually rather than file
@@ -35,7 +33,7 @@ func Parse() []Todo {
 		return []Todo{}
 	}
 
-	status := []string{"TODO", "DONE"}
+	status := []string{"TODO", "DONE", "SKIP"}
 
 	// regex := regexp.MustCompile(`\* (TODO|DONE)`)
 	regexStatus := `\* (` + strings.Join(status, "|") + `)`
@@ -71,12 +69,23 @@ func createTodo(input string) Todo {
 }
 
 func styleTodo(todo Todo) Todo {
-	styledStatus := statusStyle.Render(todo.Status)
+	statusDoneStyle := lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("46"))
+	statusTodoStyle := lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("231"))
+	statusSkipStyle := lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("196"))
 
-	t := Todo{
+	var styledStatus string
+
+	switch todo.Status {
+	case "TODO":
+		styledStatus = statusTodoStyle.Render(todo.Status)
+	case "DONE":
+		styledStatus = statusDoneStyle.Render(todo.Status)
+	case "SKIP":
+		styledStatus = statusSkipStyle.Render(todo.Status)
+	}
+
+	return Todo{
 		Status: styledStatus,
 		Task:   todo.Task,
 	}
-
-	return t
 }
