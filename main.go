@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/charmbracelet/lipgloss"
+	// "github.com/charmbracelet/lipgloss"
 	"org-todo-cli/parsetodo"
 	"os"
 )
@@ -14,7 +14,7 @@ type model struct {
 	selected map[int]struct{}
 }
 
-var statusStyle = lipgloss.NewStyle().Bold(true)
+// var statusStyle = lipgloss.NewStyle().Bold(true)
 
 func getTasks() []parsetodo.Todo {
 	tasks := parsetodo.Parse()
@@ -94,7 +94,8 @@ func (m model) View() string {
 			checked = "x" // selected
 		}
 
-		choiceText := statusStyle.Render(choice.Status) + " " + choice.Task
+		// choiceText := statusStyle.Render(choice.Status) + " - " + choice.Task
+		choiceText := choice.Status + " - " + choice.Task
 
 		// render row
 		s += fmt.Sprintf("%s [%s] %s\n", cursor, checked, choiceText)

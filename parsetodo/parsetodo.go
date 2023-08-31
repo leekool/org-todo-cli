@@ -1,6 +1,7 @@
 package parsetodo
 
 import (
+	"github.com/charmbracelet/lipgloss"
 	"bufio"
 	"fmt"
 	"os"
@@ -13,18 +14,7 @@ type Todo struct {
 	Task   string
 }
 
-func createTodo(input string) Todo {
-	const separator = " "
-
-	parts := strings.SplitN(input, separator, 2)
-
-	t := Todo{
-		Status: parts[0],
-		Task:	parts[1],
-	}
-
-	return t
-}
+var statusStyle = lipgloss.NewStyle().Bold(true)
 
 func Parse() []Todo {
 	// temporary, will get org folder eventually rather than file
@@ -60,10 +50,33 @@ func Parse() []Todo {
 			line = strings.Replace(line, "* ", "", 1)
 			// lines = append(lines, line)
 
-			task := createTodo(line)
-			lines = append(lines, task)
+			todo := createTodo(line)
+			styledTodo := styleTodo(todo)
+			lines = append(lines, styledTodo)
 		}
 	}
 
 	return lines
+}
+
+func createTodo(input string) Todo {
+	parts := strings.SplitN(input, " ", 2)
+
+	t := Todo{
+		Status: parts[0],
+		Task:   parts[1],
+	}
+
+	return t
+}
+
+func styleTodo(todo Todo) Todo {
+	styledStatus := statusStyle.Render(todo.Status)
+
+	t := Todo{
+		Status: styledStatus,
+		Task:   todo.Task,
+	}
+
+	return t
 }
