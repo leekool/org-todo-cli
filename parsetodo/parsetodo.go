@@ -69,9 +69,9 @@ func createTodo(input string) Todo {
 }
 
 func styleTodo(todo Todo) Todo {
-	statusDoneStyle := lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("46"))
-	statusTodoStyle := lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("231"))
-	statusSkipStyle := lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("196"))
+	statusTodoStyle := lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("15")) // white
+	statusDoneStyle := lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("2")) // green
+	statusSkipStyle := lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("1")) // maroon
 
 	var styledStatus string
 
