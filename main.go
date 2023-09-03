@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	tea "github.com/charmbracelet/bubbletea"
-	// "github.com/charmbracelet/lipgloss"
 	"org-todo-cli/parsetodo"
 	"os"
 )
@@ -13,8 +12,6 @@ type model struct {
 	cursor   int
 	selected map[int]struct{}
 }
-
-// var statusStyle = lipgloss.NewStyle().Bold(true)
 
 func getTasks() []parsetodo.Todo {
 	tasks := parsetodo.Parse()
@@ -30,8 +27,7 @@ func initialModel() model {
 }
 
 func (m model) Init() tea.Cmd {
-	// return 'nil' (no i/o)
-	return nil
+	return nil // no i/o
 }
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
@@ -88,21 +84,21 @@ func (m model) View() string {
 			cursor = ">" // cursor
 		}
 
-		// is this choice selected?
-		checked := " " // not selected
-		if _, ok := m.selected[i]; ok {
-			checked = "x" // selected
-		}
+		// // is this choice selected?
+		// checked := " " // not selected
+		// if _, ok := m.selected[i]; ok {
+		// 	checked = "x" // selected
+		// }
 
-		// choiceText := statusStyle.Render(choice.Status) + " - " + choice.Task
-		choiceText := choice.Status + " - " + choice.Task
+		choiceText := choice.Status + " " + choice.Task
 
 		// render row
-		s += fmt.Sprintf("%s [%s] %s\n", cursor, checked, choiceText)
+		// s += fmt.Sprintf("%s [%s] %s\n", cursor, checked, choiceText)
+		s += fmt.Sprintf("%s %s\n", cursor, choiceText)
 	}
 
 	// footer
-	s += "\n(q) quit\n"
+	// s += "\n(t) toggle (c) create (q) quit\n"
 
 	// send UI for rendering
 	return s
