@@ -3,18 +3,18 @@ package main
 import (
 	"fmt"
 	tea "github.com/charmbracelet/bubbletea"
-	"org-todo-cli/parsetodo"
+	"org-todo-cli/parse"
 	"os"
 )
 
 type model struct {
-	choices  []parsetodo.Todo
+	choices  []parse.Todo
 	cursor   int
 	selected map[int]struct{}
 }
 
-func getTasks() []parsetodo.Todo {
-	tasks := parsetodo.Parse()
+func getTasks() []parse.Todo {
+	tasks := parse.Parse()
 
 	return tasks
 }

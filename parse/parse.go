@@ -1,4 +1,4 @@
-package parsetodo
+package parse
 
 import (
 	"bufio"
