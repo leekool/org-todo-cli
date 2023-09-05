@@ -55,15 +55,16 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.cursor++
 			}
 
-		// the "enter" key and the spacebar (a literal space) toggle
-		// the selected state for the item that the cursor is pointing at
-		case "enter", " ":
-			_, ok := m.selected[m.cursor]
-			if ok {
-				delete(m.selected, m.cursor)
-			} else {
-				m.selected[m.cursor] = struct{}{}
-			}
+		// // the "enter" key and the spacebar (a literal space) toggle
+		// // the selected state for the item that the cursor is pointing at
+		// case "enter", " ":
+		// 	_, ok := m.selected[m.cursor]
+		// 	if ok {
+		// 		delete(m.selected, m.cursor)
+		// 	} else {
+		// 		m.selected[m.cursor] = struct{}{}
+		// 	}
+
 		}
 	}
 
@@ -81,7 +82,7 @@ func (m model) View() string {
 		// is the cursor pointing at this choice?
 		cursor := " " // no cursor
 		if m.cursor == i {
-			cursor = ">" // cursor
+			cursor = "▸" // cursor
 		}
 
 		// // is this choice selected?
