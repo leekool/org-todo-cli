@@ -11,6 +11,7 @@ import (
 
 type Todo struct {
 	Status string
+	StyleStatus string
 	Task   string
 }
 
@@ -49,43 +50,58 @@ func Parse() []Todo {
 			// lines = append(lines, line)
 
 			todo := createTodo(line)
-			styledTodo := styleTodo(todo)
-			lines = append(lines, styledTodo)
+			lines = append(lines, todo)
+			// styledTodo := styleTodo(todo)
+			// lines = append(lines, styledTodo)
 		}
 	}
 
 	return lines
 }
 
+func Toggle(todo Todo) string {
+	// style the expected values "TODO" and "DONE"
+	styledTodo := styleStatus("TODO")
+	styledDone := styleStatus("DONE")
+
+	var newStatus string
+
+	// compare the styled string with the styled versions of "TODO" and "DONE"
+	if todo.Status == styledTodo {
+		newStatus = styleStatus("DONE")
+	} else if todo.Status == styledDone {
+		newStatus = styleStatus("TODO")
+	}
+
+	return newStatus
+}
+
 func createTodo(input string) Todo {
 	parts := strings.SplitN(input, " ", 2)
 
 	t := Todo{
-		Status: parts[0],
+		Status: styleStatus(parts[0]),
 		Task:   parts[1],
 	}
 
 	return t
 }
 
-func styleTodo(todo Todo) Todo {
+func styleStatus(input string) string {
 	statusTodoStyle := lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("15")) // white
 	statusDoneStyle := lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("2")) // green
 	statusSkipStyle := lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("1")) // maroon
 
 	var styledStatus string
 
-	switch todo.Status {
+	switch input {
 	case "TODO":
-		styledStatus = statusTodoStyle.Render(todo.Status)
+		styledStatus = statusTodoStyle.Render(input)
 	case "DONE":
-		styledStatus = statusDoneStyle.Render(todo.Status)
+		styledStatus = statusDoneStyle.Render(input)
 	case "SKIP":
-		styledStatus = statusSkipStyle.Render(todo.Status)
+		styledStatus = statusSkipStyle.Render(input)
 	}
 
-	return Todo{
-		Status: styledStatus,
-		Task:   todo.Task,
-	}
+	return styledStatus
 }

@@ -55,6 +55,10 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.cursor++
 			}
 
+		case "t":
+			m.choices[m.cursor].Status = parse.Toggle(m.choices[m.cursor])
+
+
 		// // the "enter" key and the spacebar (a literal space) toggle
 		// // the selected state for the item that the cursor is pointing at
 		// case "enter", " ":
