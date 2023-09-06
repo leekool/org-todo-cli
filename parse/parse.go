@@ -64,7 +64,7 @@ func Toggle(todo Todo) string {
 	styledTodo := styleStatus("TODO")
 	styledDone := styleStatus("DONE")
 
-	var newStatus string
+	newStatus := todo.Status
 
 	// compare the styled string with the styled versions of "TODO" and "DONE"
 	if todo.Status == styledTodo {
