@@ -30,6 +30,8 @@ func (m model) Init() tea.Cmd {
 	return nil // no i/o
 }
 
+var toggle bool
+
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 
@@ -56,6 +58,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 
 		case "t":
+			toggle = true
 			m.choices[m.cursor].Status = parse.Toggle(m.choices[m.cursor])
 
 
@@ -100,6 +103,10 @@ func (m model) View() string {
 		// render row
 		// s += fmt.Sprintf("%s [%s] %s\n", cursor, checked, choiceText)
 		s += fmt.Sprintf("%s %s\n", cursor, choiceText)
+	}
+
+	if toggle {
+		s += "\n(t) todo (d) done (s) skip"
 	}
 
 	// footer
