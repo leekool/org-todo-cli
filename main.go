@@ -106,7 +106,7 @@ func (m model) View() string {
 	}
 
 	if toggle {
-		s += "\n(t) todo (d) done (s) skip"
+		s += "\n[t] TODO [n] NEXT [b] BLOCK [s] SKIP [d] DONE"
 	}
 
 	// footer
