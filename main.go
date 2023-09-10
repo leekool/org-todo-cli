@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
 	"org-todo-cli/parse"
 	"os"
 )
@@ -61,16 +62,15 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			toggle = true
 			m.choices[m.cursor].Status = parse.Toggle(m.choices[m.cursor])
 
-
-		// // the "enter" key and the spacebar (a literal space) toggle
-		// // the selected state for the item that the cursor is pointing at
-		// case "enter", " ":
-		// 	_, ok := m.selected[m.cursor]
-		// 	if ok {
-		// 		delete(m.selected, m.cursor)
-		// 	} else {
-		// 		m.selected[m.cursor] = struct{}{}
-		// 	}
+			// // the "enter" key and the spacebar (a literal space) toggle
+			// // the selected state for the item that the cursor is pointing at
+			// case "enter", " ":
+			// 	_, ok := m.selected[m.cursor]
+			// 	if ok {
+			// 		delete(m.selected, m.cursor)
+			// 	} else {
+			// 		m.selected[m.cursor] = struct{}{}
+			// 	}
 
 		}
 	}
@@ -105,12 +105,14 @@ func (m model) View() string {
 		s += fmt.Sprintf("%s %s\n", cursor, choiceText)
 	}
 
-	if toggle {
-		s += "\n[t] TODO [n] NEXT [b] BLOCK [s] SKIP [d] DONE"
-	}
+	keySequenceStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("8")) // grey
 
 	// footer
-	// s += "\n(t) toggle (c) create (q) quit\n"
+	if toggle {
+		toggleSequenceText := "\n[t] TODO [n] NEXT [b] BLOCK [s] SKIP [d] DONE"
+
+		s += keySequenceStyle.Render(toggleSequenceText)
+	}
 
 	// send UI for rendering
 	return s
