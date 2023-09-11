@@ -11,7 +11,6 @@ import (
 
 type Todo struct {
 	Status string
-	StyleStatus string
 	Task   string
 }
 
