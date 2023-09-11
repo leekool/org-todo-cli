@@ -11,7 +11,7 @@ import (
 type model struct {
 	choices  []parse.Todo
 	cursor   int
-	selected map[int]struct{}
+	// selected map[int]struct{}
 }
 
 func getTasks() []parse.Todo {
@@ -23,7 +23,7 @@ func getTasks() []parse.Todo {
 func initialModel() model {
 	return model{
 		choices:  getTasks(),
-		selected: make(map[int]struct{}),
+		// selected: make(map[int]struct{}),
 	}
 }
 
