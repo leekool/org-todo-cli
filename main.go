@@ -11,7 +11,7 @@ import (
 type model struct {
 	choices  []parse.Todo
 	cursor   int
-	// selected map[int]struct{}
+	selected map[int]struct{}
 }
 
 func getTasks() []parse.Todo {
@@ -23,15 +23,13 @@ func getTasks() []parse.Todo {
 func initialModel() model {
 	return model{
 		choices:  getTasks(),
-		// selected: make(map[int]struct{}),
+		selected: make(map[int]struct{}),
 	}
 }
 
 func (m model) Init() tea.Cmd {
 	return nil // no i/o
 }
-
-var toggle bool
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
@@ -59,18 +57,15 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 
 		case "t":
-			toggle = true
 			m.choices[m.cursor].Status = parse.Toggle(m.choices[m.cursor])
 
-			// // the "enter" key and the spacebar (a literal space) toggle
-			// // the selected state for the item that the cursor is pointing at
-			// case "enter", " ":
-			// 	_, ok := m.selected[m.cursor]
-			// 	if ok {
-			// 		delete(m.selected, m.cursor)
-			// 	} else {
-			// 		m.selected[m.cursor] = struct{}{}
-			// 	}
+			// toggle selected state
+			_, exists := m.selected[m.cursor]
+			if exists {
+				delete(m.selected, m.cursor)
+			} else {
+				m.selected[m.cursor] = struct{}{}
+			}
 
 		}
 	}
@@ -82,6 +77,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 func (m model) View() string {
 	var s string
+	var toggle bool
 
 	// iterate over choices
 	for i, choice := range m.choices {
@@ -92,16 +88,14 @@ func (m model) View() string {
 			cursor = "▸" // cursor
 		}
 
-		// // is this choice selected?
-		// checked := " " // not selected
-		// if _, ok := m.selected[i]; ok {
-		// 	checked = "x" // selected
-		// }
+		// if choice selected
+		if _, ok := m.selected[i]; ok {
+			toggle = true
+		}
 
 		choiceText := choice.Status + " " + choice.Task
 
 		// render row
-		// s += fmt.Sprintf("%s [%s] %s\n", cursor, checked, choiceText)
 		s += fmt.Sprintf("%s %s\n", cursor, choiceText)
 	}
 
