@@ -6,6 +6,7 @@ import (
 	"github.com/charmbracelet/lipgloss"
 	"org-todo-cli/parse"
 	"os"
+	"strings"
 )
 
 type model struct {
@@ -59,13 +60,19 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "t":
 			m.choices[m.cursor].Status = parse.Toggle(m.choices[m.cursor])
 
-			// toggle selected state
-			_, exists := m.selected[m.cursor]
-			if exists {
-				delete(m.selected, m.cursor)
-			} else {
-				m.selected[m.cursor] = struct{}{}
+			for key := range m.selected {
+				delete(m.selected, key)
 			}
+
+			m.selected[m.cursor] = struct{}{}
+
+			// toggle selected state
+			// _, exists := m.selected[m.cursor]
+			// if exists {
+			// 	delete(m.selected, m.cursor)
+			// } else {
+			// 	m.selected[m.cursor] = struct{}{}
+			// }
 
 		}
 	}
@@ -101,12 +108,17 @@ func (m model) View() string {
 
 	keySequenceStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("8")) // grey
 
+	toggleSequenceText := "\n[t] TODO [n] NEXT [b] BLOCK [s] SKIP [d] DONEtest"
+
 	// footer
 	if toggle {
-		toggleSequenceText := "\n[t] TODO [n] NEXT [b] BLOCK [s] SKIP [d] DONE"
-
 		s += keySequenceStyle.Render(toggleSequenceText)
+		return s
 	}
+
+	toggle = false
+	// s = strings.Replace(s, toggleSequenceText, "", 1)
+	s = strings.Replace(s, "test", "", 1)
 
 	// send UI for rendering
 	return s
